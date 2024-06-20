@@ -18,8 +18,12 @@ public class ParticipantRestController {
 	ParticipantService participantService;
 
 	@RequestMapping(value = "", method = RequestMethod.GET)
-	public ResponseEntity<?> getParticipants() {
-		Collection<Participant> participants = participantService.getAll();
+	public ResponseEntity<?> getParticipants(
+			@RequestParam(value = "sortBy", defaultValue ="") String sortBy,
+			@RequestParam(value = "sortOrder", defaultValue = "ASC") String sortOrder,
+			@RequestParam(value = "key", defaultValue = "") String key
+	) {
+		Collection<Participant> participants = participantService.getAll(sortBy,sortOrder,key);
 		return new ResponseEntity<Collection<Participant>>(participants, HttpStatus.OK);
 	}
 	@RequestMapping(value = "/{id}", method = RequestMethod.GET)
@@ -48,7 +52,7 @@ public class ParticipantRestController {
 			return new ResponseEntity("Unable to remove. A participant doesn't exist.", HttpStatus.NOT_FOUND);
 		}
 		participantService.remove(removeParticipant);
-		return new ResponseEntity<Participant>(removeParticipant,HttpStatus.OK);
+		return new ResponseEntity<Participant>(removeParticipant, HttpStatus.OK);
 	}
 
 	@RequestMapping(value = "/{id}", method = RequestMethod.PUT)
