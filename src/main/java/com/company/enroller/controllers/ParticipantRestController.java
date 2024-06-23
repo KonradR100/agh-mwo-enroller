@@ -49,7 +49,7 @@ public class ParticipantRestController {
 	public ResponseEntity<?> removeParticipant(@PathVariable("id") String login) {
 		Participant removeParticipant = participantService.findByLogin(login);
 		if (removeParticipant == null) {
-			return new ResponseEntity("Unable to remove. A participant doesn't exist.", HttpStatus.NOT_FOUND);
+			return new ResponseEntity("Unable to remove. A participant" + login + "doesn't exist.", HttpStatus.NOT_FOUND);
 		}
 		participantService.remove(removeParticipant);
 		return new ResponseEntity<Participant>(removeParticipant, HttpStatus.OK);
